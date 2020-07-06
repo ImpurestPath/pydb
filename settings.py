@@ -3,11 +3,24 @@ from eve_sqlalchemy.examples.simple.tables import Invoices, People
 import domain
 import d2
 import os
+
+
 DEBUG = True
 basedir = os.path.abspath(os.path.dirname(__file__))
-SQLALCHEMY_DATABASE_URI = 'postgresql://testuser:testuser@localhost:5432/test'
+
+# Access to postgresql database
+dbuser = 'testuser'
+dbpass = 'testuser'
+dbname = 'test'
+dbaddr = 'localhost'
+dbport = '5432'
+
+
+SQLALCHEMY_DATABASE_URI = 'postgresql://' + dbuser +':' + dbpass + '@' + dbaddr + ':' + dbport + '/' + dbname 
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+# Allowed methods 
 RESOURCE_METHODS = ['GET', 'POST']
 ITEM_METHODS = ['GET', 'PATCH', 'PUT', 'DELETE']
 
@@ -19,6 +32,7 @@ ITEM_METHODS = ['GET', 'PATCH', 'PUT', 'DELETE']
 # SQLALCHEMY_RECORD_QUERIES = True
 
 # The default schema is generated using DomainConfig:
+# Using sqlalchemy classes to generate schema
 DOMAIN = DomainConfig({
     'logIpInfo': ResourceConfig(domain.logIpInfo),
     'logIpCnt': ResourceConfig(domain.logIpCnt),
@@ -39,5 +53,4 @@ DOMAIN = DomainConfig({
     'usersCompany': ResourceConfig(domain.usersCompany),
     'usersLoginInfo': ResourceConfig(domain.usersLoginInfo),
     'settings': ResourceConfig(domain.settings)
-    # 'aaa': ResourceConfig(d2.aaa)
 }).render()
